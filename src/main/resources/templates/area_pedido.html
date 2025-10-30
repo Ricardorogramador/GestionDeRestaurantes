@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Área de pedidos</title>
+    <link rel="stylesheet" href="/area_pedido.css">
+</head>
+<body>
+<div class="pedido-container">
+    <button class="close-btn" onclick="window.location.href='/'">X</button>
+    <h1 class="pedido-title">Área de pedidos</h1>
+    <div class="pedido-content">
+        <div class="pedido-table-wrapper">
+            <table class="pedido-table">
+                <tr>
+                    <th>ID Pedido</th>
+                    <th>Mesa</th>
+                    <th>Estado</th>
+                    <th>Productos</th>
+                </tr>
+                <tr th:each="pedido : ${pedidos}">
+                    <td th:text="${pedido.id}">1</td>
+                    <td th:text="${pedido.mesa}">5</td>
+                    <td th:text="${pedido.estado}">Pendiente</td>
+                    <td>
+                        <ul>
+                            <li th:each="prod : ${pedido.productos}" th:text="${prod.producto.nombre} + ' x' + ${prod.cantidad}"></li>
+                        </ul>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="pedido-actions">
+            <a href="/pedidos/nuevo"><button class="pedido-btn">Nuevo pedido</button></a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

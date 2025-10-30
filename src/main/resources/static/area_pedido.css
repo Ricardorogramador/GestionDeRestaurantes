@@ -1,0 +1,111 @@
+body {
+    font-family: 'Segoe UI', 'Roboto', sans-serif;
+    background: linear-gradient(90deg, #f6b73c, #f77e3c);
+    margin: 0;
+    padding: 0;
+}
+.pedido-container {
+    max-width: 900px;
+    margin: 40px auto;
+    background: #fff6d1;
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(80, 40, 0, 0.08);
+    position: relative;
+    padding: 36px 48px 48px 48px;
+    min-height: 400px;
+}
+.pedido-title {
+    color: #e34f16;
+    font-size: 2.2em;
+    font-family: 'Georgia', serif;
+    margin-bottom: 26px;
+    letter-spacing: 1px;
+}
+.close-btn {
+    position: absolute;
+    right: 24px;
+    top: 24px;
+    background: #e34f16;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+.pedido-content {
+    display: flex;
+    gap: 36px;
+    align-items: flex-start;
+}
+.pedido-table-wrapper {
+    flex: 2;
+}
+.pedido-table {
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 1px 6px rgba(120, 80, 20, 0.08);
+}
+.pedido-table th, .pedido-table td {
+    text-align: center;
+    padding: 16px 10px;
+    border-bottom: 2px solid #ffd9b0;
+    color: #e34f16;
+    font-size: 1.08em;
+    font-family: 'Georgia', serif;
+}
+.pedido-table th {
+    background: none;
+    font-weight: bold;
+    font-size: 1.13em;
+}
+.pedido-table tr:last-child td {
+    border-bottom: none;
+}
+.barra {
+    height: 8px;
+    background: #222;
+    border-radius: 4px;
+    margin: 10px 12px;
+}
+.pedido-actions {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    align-items: flex-start;
+    margin-top: 18px;
+}
+.pedido-btn {
+    background: #e34f16;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    padding: 12px 24px;
+    font-size: 1em;
+    box-shadow: 0 2px 8px rgba(227, 79, 22, 0.08);
+    cursor: pointer;
+    font-family: 'Georgia', serif;
+    margin-right: 0;
+    transition: background 0.2s;
+}
+.pedido-btn:hover {
+    background: #f77e3c;
+}
+@media (max-width: 900px) {
+    .pedido-content {
+        flex-direction: column;
+        gap: 18px;
+    }
+    .pedido-actions {
+        margin-top: 0;
+        flex-direction: row;
+        gap: 12px;
+    }
+}

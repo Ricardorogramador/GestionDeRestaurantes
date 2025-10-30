@@ -1,0 +1,85 @@
+body {
+    font-family: sans-serif;
+    background: #fffbe6;
+    margin: 0;
+    padding: 0;
+}
+.container {
+    max-width: 900px;
+    margin: 30px auto;
+    background: #fff6d1;
+    padding: 24px;
+    border-radius: 10px;
+}
+h1 {
+    color: #e68231;
+    text-align: center;
+    margin-bottom: 24px;
+}
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+.button-group {
+    display: flex;
+    gap: 10px;
+}
+.top-button {
+    background: #e68231;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+.section {
+    margin-bottom: 20px;
+}
+.section h2 {
+    color: #e68231;
+    margin-bottom: 8px;
+}
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 32px;
+    font-size: 0.95em;
+}
+.social, .service, .comments {
+    flex: 1;
+}
+.comments form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.comments input, .comments textarea {
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #eee;
+}
+.comments button {
+    background: #e68231;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+.stars {
+    color: #e68231;
+}
+.img-placeholder {
+    width: 90px;
+    height: 70px;
+    background: #ffe4ba;
+    display: inline-block;
+    margin: 10px 0;
+    text-align: center;
+    line-height: 70px;
+    border-radius: 8px;
+    color: #b6762e;
+}

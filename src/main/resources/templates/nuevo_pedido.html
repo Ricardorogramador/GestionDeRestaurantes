@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Nuevo pedido</title>
+    <link rel="stylesheet" href="/nuevo_pedido.css">
+</head>
+<body>
+<div class="pedido-nuevo-container">
+    <button class="close-btn" onclick="window.location.href='/pedidos'">X</button>
+    <h1 class="pedido-nuevo-title">Nuevo pedido</h1>
+    <div class="pedido-nuevo-content">
+        <form class="pedido-nuevo-form" th:action="@{/pedidos/nuevo}" method="post">
+            <div class="form-row">
+                <label>Mesa:</label>
+                <input type="number" name="mesa" value="1" min="1" required class="mesa-input"/>
+            </div>
+            <div class="form-row">
+                <label>Productos:</label>
+                <div th:each="producto, iterStat : ${productos}">
+                    <input type="checkbox" th:name="'productoId'" th:value="${producto.id}" th:id="'prod_' + ${producto.id}" />
+                    <label th:for="'prod_' + ${producto.id}" th:text="${producto.nombre} + ' ($' + ${producto.precio} + ')'"></label>
+                    <input type="number" th:name="'cantidad'" value="1" min="1" style="width:60px;" />
+                    <br/>
+                </div>
+            </div>
+            <div class="pedido-nuevo-actions">
+                <button type="submit" class="ordenar-btn">Ordenar pedido</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

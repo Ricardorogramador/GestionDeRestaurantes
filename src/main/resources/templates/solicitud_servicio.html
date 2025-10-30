@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario de solicitud de servicio</title>
+    <link rel="stylesheet" href="/solicitud_servicio.css">
+</head>
+<body>
+<div class="container" style="position:relative;">
+    <button class="close-btn" onclick="window.location.href='/'">X</button>
+    <h1>Formulario de solicitud de servicio</h1>
+    <form th:action="@{/solicitud-servicio}" method="post">
+        <div class="form-group">
+            <label>Nombre del restaurante</label>
+            <input type="text" name="nombreRestaurante" required>
+        </div>
+        <div class="form-group">
+            <label>Correo electrónico</label>
+            <input type="email" name="correo" required>
+        </div>
+        <div class="form-group">
+            <label>Ubicación</label>
+            <input type="text" name="ubicacion" required>
+        </div>
+        <div class="form-group">
+            <label>Número de teléfono</label>
+            <input type="text" name="telefono" required>
+        </div>
+        <div class="form-group">
+            <label>Nombre del representante</label>
+            <input type="text" name="representante" required>
+        </div>
+        <div class="form-group full-width">
+            <label>Descripción de su petición</label>
+            <textarea name="descripcion" required></textarea>
+        </div>
+        <div class="form-group">
+            <label>Cédula de ciudadanía</label>
+            <input type="text" name="cedula" required>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="submit-btn">Solicitar servicio</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>
