@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Área de cocina</title>
+    <link rel="stylesheet" href="/cocina_pedidos.css">
+</head>
+<body>
+<div class="cocina-container">
+    <h1>Órdenes para la cocina</h1>
+    <table class="cocina-table">
+        <tr>
+            <th>ID Pedido</th>
+            <th>Mesa</th>
+            <th>Productos</th>
+            <th>Estado</th>
+            <th>Acción</th>
+        </tr>
+        <tr th:each="pedido : ${pedidos}">
+            <td th:text="${pedido.id}">1</td>
+            <td th:text="${pedido.mesa}">5</td>
+            <td>
+                <ul>
+                    <li th:each="prod : ${pedido.productos}"
+                        th:text="${prod.producto.nombre} + ' x' + ${prod.cantidad}"></li>
+                </ul>
+            </td>
+            <td th:text="${pedido.estado}">Pendiente</td>
+            <td>
+                <form th:action="@{'/cocina/actualizar/' + ${pedido.id}}" method="post" style="display:inline;">
+                    <button type="submit"
+                            th:text="${pedido.estado == 'Pendiente' ? 'Preparar' : (pedido.estado == 'Preparación' ? 'Terminar' : '')}">
+                        Acción
+                    </button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

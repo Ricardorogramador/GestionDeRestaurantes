@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.EstadoPedido;
 import com.example.demo.model.Pedido;
 import com.example.demo.model.Producto;
 import com.example.demo.model.PedidoProducto;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Controller
@@ -25,11 +28,26 @@ public class PedidoController {
         this.pedidoProductoRepository = pedidoProductoRepository;
     }
 
-    // Listar pedidos
+
     @GetMapping("/pedidos")
     public String areaPedidos(Model model) {
-        List<Pedido> pedidos = pedidoRepository.findAll();
+        LocalDate hoy = LocalDate.now();
+        LocalDateTime inicioDia = hoy.atStartOfDay();
+        LocalDateTime finDia = hoy.atTime(23, 59, 59);
+
+        List<Pedido> pedidos = pedidoRepository.findByFechaCreacionBetween(inicioDia, finDia);
+
+        Map<Long, Double> totalesPorPedido = new HashMap<>();
+        for (Pedido pedido : pedidos) {
+            double total = 0;
+            for (PedidoProducto pp : pedido.getProductos()) {
+                total += pp.getProducto().getPrecio() * pp.getCantidad();
+            }
+            totalesPorPedido.put(pedido.getId(), total);
+        }
+
         model.addAttribute("pedidos", pedidos);
+        model.addAttribute("totalesPorPedido", totalesPorPedido);
         return "area_pedido";
     }
 
@@ -48,10 +66,12 @@ public class PedidoController {
             @RequestParam("productoId") List<Long> productoIds,
             @RequestParam("cantidad") List<Integer> cantidades,
             Model model
-    ) {
+    )
+
+    {
         Pedido pedido = new Pedido();
         pedido.setMesa(mesa);
-        pedido.setEstado("Pendiente");
+        pedido.setEstado(EstadoPedido.PENDIENTE);
         pedido = pedidoRepository.save(pedido);
 
         List<PedidoProducto> pedidoProductos = new ArrayList<>();

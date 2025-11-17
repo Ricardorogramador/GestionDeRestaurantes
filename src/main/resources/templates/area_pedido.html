@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Área de pedidos</title>
     <link rel="stylesheet" href="/area_pedido.css">
+    <script src="/script/detalle_pedido.js"></script>
 </head>
 <body>
 <div class="pedido-container">
@@ -16,17 +17,30 @@
                     <th>ID Pedido</th>
                     <th>Mesa</th>
                     <th>Estado</th>
+                    <th>Fecha y hora</th>
                     <th>Productos</th>
+                    <th>Total</th>
                 </tr>
                 <tr th:each="pedido : ${pedidos}">
                     <td th:text="${pedido.id}">1</td>
                     <td th:text="${pedido.mesa}">5</td>
                     <td th:text="${pedido.estado}">Pendiente</td>
+                    <td th:text="${#temporals.format(pedido.fechaCreacion, 'dd/MM/yyyy HH:mm')}">17/11/2025 08:17</td>
                     <td>
-                        <ul>
-                            <li th:each="prod : ${pedido.productos}" th:text="${prod.producto.nombre} + ' x' + ${prod.cantidad}"></li>
-                        </ul>
+                        <span th:text="${pedido.productos.size()} + ' productos'"></span>
+                        <button type="button" class="detalles-btn"
+                                th:onclick="'mostrarDetalles(\'detalle-' + ${pedido.id} + '\')'">Más detalles</button>
+                        <div th:id="'detalle-' + ${pedido.id}" class="detalle-box" style="display:none;">
+                            <button type="button" class="cerrar-detalles-btn"
+                                    th:onclick="'ocultarDetalles(\'detalle-' + ${pedido.id} + '\')'">X</button>
+                            <h4>Productos del pedido</h4>
+                            <ul>
+                                <li th:each="prod : ${pedido.productos}"
+                                    th:text="${prod.producto.nombre} + ' x' + ${prod.cantidad} + ' ($' + ${prod.producto.precio} + ')'"></li>
+                            </ul>
+                        </div>
                     </td>
+                    <td th:text="${totalesPorPedido[pedido.id]}">0</td>
                 </tr>
             </table>
         </div>

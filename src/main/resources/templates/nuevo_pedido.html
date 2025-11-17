@@ -4,6 +4,40 @@
     <meta charset="UTF-8">
     <title>Nuevo pedido</title>
     <link rel="stylesheet" href="/nuevo_pedido.css">
+    <script>
+        function actualizarResumen() {
+            var cards = document.getElementsByClassName('producto-card');
+            var resumen = document.getElementById('resumenPedido');
+            var total = 0;
+            var texto = '';
+            for (var i = 0; i < cards.length; i++) {
+                var checkbox = cards[i].querySelector('input[type="checkbox"]');
+                var cantidadEl = cards[i].querySelector('input[type="number"]');
+                var nombre = cards[i].getAttribute('data-nombre');
+                var precio = parseFloat(cards[i].getAttribute('data-precio'));
+                var cantidad = parseInt(cantidadEl.value);
+                if (checkbox.checked && cantidad > 0) {
+                    var subtotal = cantidad * precio;
+                    texto += '<li>' + nombre + ' x' + cantidad + ' = $' + subtotal.toLocaleString() + '</li>';
+                    total += subtotal;
+                }
+            }
+            resumen.innerHTML = (texto !== '' ? '<ul>' + texto + '</ul>' : '<div>No hay productos seleccionados</div>') +
+                '<div><strong>Total: $' + total.toLocaleString() + '</strong></div>';
+        }
+
+        function actualizarOpcionRetiro() {
+            var checkDomicilio = document.getElementById('domicilio');
+            var checkLlevar = document.getElementById('llevar');
+            var mesaInput = document.getElementById('mesaInput');
+            if (checkDomicilio.checked || checkLlevar.checked) {
+                mesaInput.disabled = true;
+                mesaInput.value = '';
+            } else {
+                mesaInput.disabled = false;
+            }
+        }
+    </script>
 </head>
 <body>
 <div class="pedido-nuevo-container">
@@ -13,22 +47,46 @@
         <form class="pedido-nuevo-form" th:action="@{/pedidos/nuevo}" method="post">
             <div class="form-row">
                 <label>Mesa:</label>
-                <input type="number" name="mesa" value="1" min="1" required class="mesa-input"/>
+                <input type="number" name="mesa" id="mesaInput" value="1" min="1" required class="mesa-input"/>
             </div>
             <div class="form-row">
-                <label>Productos:</label>
-                <div th:each="producto, iterStat : ${productos}">
-                    <input type="checkbox" th:name="'productoId'" th:value="${producto.id}" th:id="'prod_' + ${producto.id}" />
-                    <label th:for="'prod_' + ${producto.id}" th:text="${producto.nombre} + ' ($' + ${producto.precio} + ')'"></label>
-                    <input type="number" th:name="'cantidad'" value="1" min="1" style="width:60px;" />
-                    <br/>
+                <input type="checkbox" name="domicilio" id="domicilio" value="domicilio" onclick="actualizarOpcionRetiro()">
+                <label for="domicilio">Domicilio</label>
+                <input type="checkbox" name="llevar" id="llevar" value="llevar" onclick="actualizarOpcionRetiro()">
+                <label for="llevar">Para llevar</label>
+            </div>
+            <div class="form-row productos-filtro">
+                <label for="filtroProducto"><b>Buscar producto:</b></label>
+                <input type="text" id="filtroProducto" onkeyup="filtrarProductos()" placeholder="Ej: Pizza, jugo..." />
+            </div>
+            <div class="form-row productos-lista">
+                <div th:each="producto, iterStat : ${productos}"
+                     class="producto-card"
+                     th:attr="data-nombre=${producto.nombre},data-precio=${producto.precio}">
+                    <div class="producto-nombre" th:text="${producto.nombre}"></div>
+                    <div class="producto-precio" th:text="'$' + ${producto.precio}"></div>
+                    <div class="producto-actions">
+                        <input type="checkbox" th:name="'productoId'" th:value="${producto.id}" th:id="'prod_' + ${producto.id}" onclick="actualizarResumen()" />
+                        <input type="number" th:name="'cantidad'" value="1" min="1" onchange="actualizarResumen()" />
+                    </div>
                 </div>
             </div>
-            <div class="pedido-nuevo-actions">
+            <div class="form-row">
+                <div id="resumenPedido" style="margin-top:25px; padding:14px; background:#fff8e2; border-radius:12px; font-size:1.1em;">
+                    No hay productos seleccionados
+                </div>
+            </div>
+            <div class="pedido-nuevo-actions" style="margin-top:12px;">
                 <button type="submit" class="ordenar-btn">Ordenar pedido</button>
             </div>
         </form>
     </div>
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        actualizarResumen();
+        actualizarOpcionRetiro();
+    });
+</script>
 </body>
 </html>
